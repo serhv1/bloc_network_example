@@ -11,7 +11,12 @@ class UserList extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserEmptyState) {
-          return const Text('No data, click "Load" button');
+          return const Center(
+            child: Text(
+              'No data, click "Load" button',
+              style: TextStyle(fontSize: 22),
+            ),
+          );
         }
         if (state is UserLoadingState) {
           return const Center(
@@ -19,56 +24,59 @@ class UserList extends StatelessWidget {
           );
         }
         if (state is UserLoadedState) {
-          return Expanded(
-            child: ListView.builder(
-              itemCount: state.loadedUser.length,
-              itemBuilder: (context, index) => Container(
-                color: index.isEven ? Colors.white : Colors.blue[50],
-                child: ListTile(
-                  leading: Text(
-                    'ID: ${state.loadedUser[index].id}',
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+          return ListView.builder(
+            itemCount: state.loadedUser.length,
+            itemBuilder: (context, index) => Container(
+              color: index.isEven ? Colors.white : Colors.blue[50],
+              child: ListTile(
+                leading: Text(
+                  'ID: ${state.loadedUser[index].id}',
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                title: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Name: ${state.loadedUser[index].name}',
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  title: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Name: ${state.loadedUser[index].name}',
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
+                    Column(
+                      children: [
+                        Text(
+                          'Email: ${state.loadedUser[index].email}',
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ),
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            'Email: ${state.loadedUser[index].email}',
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                              fontStyle: FontStyle.italic,
-                            ),
+                        Text(
+                          'Phone: ${state.loadedUser[index].phone}',
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            fontStyle: FontStyle.italic,
                           ),
-                          Text(
-                            'Phone: ${state.loadedUser[index].phone}',
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
           );
         }
         if (state is UserErrorState) {
-          return const Center(child: Text('Error occured'));
+          return const Center(
+            child: Text(
+              'Error occured',
+              style: TextStyle(fontSize: 22),
+            ),
+          );
         }
         return const SizedBox.shrink();
       },
